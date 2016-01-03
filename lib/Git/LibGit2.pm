@@ -475,25 +475,29 @@ class git_oid is repr('CStruct') is export {
 
 ### API section: libgit2
 
+# int git_libgit2_init();
 sub git_libgit2_init()
     returns int32
     is native($libname, $apivers)
     is export
     { * }
 
+# int git_libgit2_shutdown();
 sub git_libgit2_shutdown()
     returns int32
     is native($libname, $apivers)
     is export
     { * }
 
+# int git_libgit2_features();
 sub git_libgit2_features()
     returns int32
     is native($libname, $apivers)
     is export
     { * }
 
-sub git_libgit2_version(int32 is rw, int32 is rw, int32 is rw)
+# void git_libgit2_version(int *major, int *minor, int *rev);
+sub git_libgit2_version(int32 $major is rw, int32 $minor is rw, int32 $rev is rw)
     is native($libname, $apivers)
     is export
     { * }
@@ -542,14 +546,14 @@ class git_signature is repr('CPointer')
 
 
 # int git_repository_init(git_repository **out, const char *path, unsigned int is_bare);
-sub git_repository_init(git_repository is rw, Str, uint32)
+sub git_repository_init(git_repository $out is rw, Str $path, uint32 $is_bare)
     returns int32
     is native($libname, $apivers)
     is export
     { * }        # TODO explicitly-manage($path)
 
 # # void git_repository_free(git_repository *repo);
-sub git_repository_free(git_repository)
+sub git_repository_free(git_repository $repo)
     is native($libname, $apivers)
     is export
     { * }
@@ -576,7 +580,7 @@ sub git_repository_free(git_repository)
 #     { * }
 
 # int git_repository_index(git_index **out, git_repository *repo);
-sub git_repository_index(git_index is rw, git_repository)
+sub git_repository_index(git_index $out is rw, git_repository $repo)
     returns int32
     is native($libname, $apivers)
     is export
@@ -593,14 +597,14 @@ sub git_repository_index(git_index is rw, git_repository)
 # ### API Section: index
 
 # int git_index_write_tree(git_oid *out, git_index *index);
-sub git_index_write_tree(git_oid is rw, git_index)
+sub git_index_write_tree(git_oid $out is rw, git_index $index)
     returns int32
     is native($libname, $apivers)
     is export
     { * }
 
 # void git_index_free(git_index *index);
-sub git_index_free(git_index)
+sub git_index_free(git_index $index)
     is native($libname, $apivers)
     is export
     { * }
@@ -613,14 +617,14 @@ sub git_index_free(git_index)
 
 
 # # int git_signature_default(git_signature **out, git_repository *repo);
-sub git_signature_default(git_signature is rw, git_repository)
+sub git_signature_default(git_signature $out is rw, git_repository $repo)
     returns int32
     is native($libname, $apivers)
     is export
     { * }
 
 # # void git_signature_free(git_signature *sig);
-sub git_signature_free(git_signature)
+sub git_signature_free(git_signature $sig)
     is native($libname, $apivers)
     is export
     { * }
@@ -633,14 +637,14 @@ sub git_signature_free(git_signature)
 
 
 # int git_tree_lookup(git_tree **out, git_repository *repo, const git_oid *id);
-sub git_tree_lookup(git_tree is rw, git_repository, git_oid is rw)     # TODO const for @id?
+sub git_tree_lookup(git_tree $out is rw, git_repository $repo, git_oid $id is rw)     # TODO const for @id?
     returns int32
     is native($libname, $apivers)
     is export
     { * }
 
 # void git_tree_free(git_tree *tree);
-sub git_tree_free(git_tree)
+sub git_tree_free(git_tree $tree)
     is native($libname, $apivers)
     is export
     { * }
@@ -651,7 +655,10 @@ sub git_tree_free(git_tree)
 # ### API Section: commit
 
 # int git_commit_create_v(git_oid *id, git_repository *repo, const char *update_ref, const git_signature *author, const git_signature *committer, const char *message_encoding, const char *message, const git_tree *tree, size_t parent_count);
-sub git_commit_create_v(git_oid is rw, git_repository, Str, git_signature, git_signature, Str, Str, git_tree, size_t)    # TODO almost everything for explicitly-manage
+sub git_commit_create_v(git_oid $id is rw, git_repository $repo,
+    Str $update_ref, git_signature $author, git_signature $committer,
+    Str $message_encoding, Str $message, git_tree $tree, size_t $parent_count)    # TODO almost everything for explicitly-manage
+
     returns int32
     is native($libname, $apivers)
     is export
