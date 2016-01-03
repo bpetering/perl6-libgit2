@@ -7,7 +7,6 @@ use lib '../lib';
 use Git::LibGit2;
 use NativeCall;     # for explicitly-manage
 
-# TODO start here
 sub create_initial_commit(git_repository $repo) {
     my git_signature $sig   .= new;
     my git_index $index     .= new;
