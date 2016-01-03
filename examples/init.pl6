@@ -9,11 +9,11 @@ use NativeCall;     # for explicitly-manage
 
 # TODO start here
 sub create_initial_commit(git_repository $repo) {
-    my git_signature $sig   = git_signature.new;
-    my git_index $index     = git_index.new;
-    my git_oid $tree_id     = git_oid.new;
-    my git_oid $commit_id   = git_oid.new;
-    my git_tree $tree       = git_tree.new;
+    my git_signature $sig   .= new;
+    my git_index $index     .= new;
+    my git_oid $tree_id     .= new;
+    my git_oid $commit_id   .= new;
+    my git_tree $tree       .= new;
 
     # Initialize a signature
     if git_signature_default($sig, $repo) < 0 {
@@ -47,7 +47,7 @@ sub create_initial_commit(git_repository $repo) {
     git_signature_free($sig);
 }
 
-my git_repository $repo = git_repository.new;
+my git_repository $repo .= new;
 my Str $path = ".";
 explicitly-manage($path);
 git_repository_init($repo, $path, 0);
